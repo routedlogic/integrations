@@ -1,4 +1,12 @@
 # newer versions go on top
+- version: "0.3.0"
+  changes:
+    - description: Update to support BBOT v2.0.0 event format, BBOT v1.x no longer supported
+      type: enhancement
+      link: https://github.com/elastic/integrations/pull/9999
+    - description: Add http_endpoint input option to support BBOT v2.x HTTP output
+      type: enhancement
+      link: https://github.com/elastic/integrations/pull/9999
 - version: "0.2.0"
   changes:
     - description: ECS version updated to 8.11.0. Removed import_mappings. Update the kibana constraint to ^8.13.0. Modified the field definitions to remove ECS fields made redundant by the ecs@mappings component template.

@@ -1,0 +1,124 @@
+---
+description: Pipeline for mapping BBOT fields to ECS
+
+processors:
+- rename:
+    field: bbot.data.PROTOCOL.port
+    target_field: url.port
+    ignore_missing: true
+
+- rename:
+    field: bbot.data.VULNERABILITY.severity
+    target_field: vulnerability.severity
+    ignore_missing: true
+
+- rename:
+    field: bbot.data.DNS_NAME
+    target_field: host.name
+    ignore_missing: true
+
+- rename:
+    field: bbot.resolved_hosts
+    target_field: related.hosts
+    ignore_missing: true
+
+- append:
+    field: host.ip
+    value: '{{{bbot.data.IP_ADDRESS}}}'
+    if: ctx.bbot?.data?.IP_ADDRESS != null
+
+- append:
+    field: url.full 
+    value: '{{{bbot.data.URL}}}'
+    if: ctx.bbot?.data?.URL != null
+    allow_duplicates: false
+
+- append:
+    field: url.full
+    value: '{{{bbot.data.FINDING.url}}}'
+    if: ctx.bbot?.data?.FINDING?.url != null
+    allow_duplicates: false
+
+- append:
+    field: url.full
+    value: '{{{bbot.data.SOCIAL.url}}}'
+    if: ctx.bbot?.data?.SOCIAL?.url != null
+    allow_duplicates: false
+
+- append:
+    field: url.full
+    value: '{{{bbot.data.STORAGE_BUCKET.url}}}'
+    if: ctx.bbot?.data?.STORAGE_BUCKET?.url != null
+    allow_duplicates: false
+
+- append:
+    field: url.full
+    value: '{{{bbot.data.TECHNOLOGY.url}}}'
+    if: ctx.bbot?.data?.TECHNOLOGY?.url != null
+    allow_duplicates: false
+
+- append:
+    field: url.full
+    value: '{{{bbot.data.VULNERABILITY.url}}}'
+    if: ctx.bbot?.data?.VULNERABILITY?.url != null
+    allow_duplicates: false
+
+- append:
+    field: url.full
+    value: '{{{bbot.data.WAF.url}}}'
+    if: ctx.bbot?.data?.WAF?.url != null
+    allow_duplicates: false
+
+- append:
+    field: url.full
+    value: '{{{bbot.data.WEBSCREENSHOT.url}}}'
+    if: ctx.bbot?.data?.WEBSCREENSHOT?.url != null
+    allow_duplicates: false
+
+- append:
+    field: url.domain 
+    value: '{{{bbot.data.FINDING.host}}}'
+    if: ctx.bbot?.data?.FINDING?.host != null
+    allow_duplicates: false
+
+- append:
+    field: url.domain 
+    value: '{{{bbot.data.PROTOCOL.host}}}'
+    if: ctx.bbot?.data?.PROTOCOL?.host != null
+    allow_duplicates: false
+
+- append:
+    field: url.domain 
+    value: '{{{bbot.data.TECHNOLOGY.host}}}'
+    if: ctx.bbot?.data?.TECHNOLOGY?.host != null
+    allow_duplicates: false
+
+- append:
+    field: url.domain 
+    value: '{{{bbot.data.VULNERABILITY.host}}}'
+    if: ctx.bbot?.data?.VULNERABILITY?.host != null
+    allow_duplicates: false
+
+- append:
+    field: url.domain 
+    value: '{{{bbot.data.WAF.host}}}'
+    if: ctx.bbot?.data?.WAF?.host != null
+    allow_duplicates: false
+
+- append:
+    field: url.domain 
+    value: '{{{host.name}}}'
+    if: ctx.host?.name != null
+    allow_duplicates: false
+
+# Uppercase field names will probably work, but it goes against ECS, lowercase 'em
+- foreach:
+    description: Lowercase the first level field under bbot.data, e.g. DNS_NAME becomes dns_name
+    tag: data_event_lowercase
+    field: bbot.data
+    if: ctx.bbot?.data != null
+    ignore_missing: true
+    processor: 
+      lowercase:
+        field: "_ingest._key"
+# EOF

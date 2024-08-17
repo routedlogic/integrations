@@ -1,46 +1,76 @@
 {
-    "@timestamp": "2024-02-29T01:41:47.779Z",
+    "@timestamp": "2024-08-17T20:41:00.310Z",
     "agent": {
-        "ephemeral_id": "8ff8221f-4846-4f02-b12b-773332430bab",
-        "id": "bcb4b946-41b8-4916-9308-849b3bf23f46",
-        "name": "docker-fleet-agent",
+        "ephemeral_id": "a8e4d6b2-6b67-42fc-a117-f8f2d438c321",
+        "id": "1c4a3810-617e-4e72-97a0-bf2740d00216",
+        "name": "elastic-agent-57864",
         "type": "filebeat",
-        "version": "8.12.2"
+        "version": "8.14.3"
     },
     "bbot": {
-        "id": "DNS_NAME:f57ba0828becd7bf94faa616db081ed06f31bd3d",
+        "discovery_context": "Scan example-com seeded with DNS_NAME: example.com",
+        "discovery_path": [
+            [
+                "DNS_NAME:2c3b88bc0f61aabc979125a84d8402ea4697eb7d",
+                "Scan example-com seeded with DNS_NAME: example.com"
+            ]
+        ],
+        "dns_children": {
+            "MX": [
+                "route3.mx.cloudflare.net",
+                "route1.mx.cloudflare.net",
+                "route2.mx.cloudflare.net"
+            ],
+            "NS": [
+                "gail.ns.cloudflare.com",
+                "rick.ns.cloudflare.com"
+            ],
+            "SOA": [
+                "gail.ns.cloudflare.com"
+            ],
+            "TXT": [
+                "_spf.mx.cloudflare.net"
+            ]
+        },
+        "host": "example.com",
+        "id": "DNS_NAME:2c3b88bc0f61aabc979125a84d8402ea4697eb7d",
         "module": "TARGET",
         "module_sequence": "TARGET",
-        "scan": "SCAN:725368977d3a680e579707504e59428a7e3acc9d",
+        "parent": "SCAN:443493061d75422bf2aa8e2b863938565cdc4a1b",
+        "scan": "SCAN:443493061d75422bf2aa8e2b863938565cdc4a1b",
+        "scope_description": "in-scope",
         "scope_distance": 0,
-        "source": "SCAN:725368977d3a680e579707504e59428a7e3acc9d",
         "tags": [
-            "resolved",
-            "a-record",
+            "ns-record",
+            "mx-record",
+            "txt-record",
             "target",
             "in-scope",
-            "subdomain"
+            "domain",
+            "soa-record"
         ],
-        "type": "DNS_NAME"
+        "type": "DNS_NAME",
+        "web_spider_distance": 0
     },
     "data_stream": {
         "dataset": "bbot.asm_intel",
-        "namespace": "ep",
+        "namespace": "83546",
         "type": "logs"
     },
     "ecs": {
         "version": "8.11.0"
     },
     "elastic_agent": {
-        "id": "bcb4b946-41b8-4916-9308-849b3bf23f46",
+        "id": "1c4a3810-617e-4e72-97a0-bf2740d00216",
         "snapshot": false,
-        "version": "8.12.2"
+        "version": "8.14.3"
     },
     "event": {
         "agent_id_status": "verified",
         "dataset": "bbot.asm_intel",
-        "ingested": "2024-04-22T19:10:49Z",
-        "kind": "asset"
+        "ingested": "2024-08-17T21:49:28Z",
+        "kind": "asset",
+        "original": "{\"type\": \"DNS_NAME\", \"id\": \"DNS_NAME:2c3b88bc0f61aabc979125a84d8402ea4697eb7d\", \"scope_description\": \"in-scope\", \"data\": {\"DNS_NAME\": \"example.com\"}, \"host\": \"example.com\", \"resolved_hosts\": [], \"dns_children\": {\"MX\": [\"route3.mx.cloudflare.net\", \"route1.mx.cloudflare.net\", \"route2.mx.cloudflare.net\"], \"TXT\": [\"_spf.mx.cloudflare.net\"], \"NS\": [\"gail.ns.cloudflare.com\", \"rick.ns.cloudflare.com\"], \"SOA\": [\"gail.ns.cloudflare.com\"]}, \"web_spider_distance\": 0, \"scope_distance\": 0, \"scan\": \"SCAN:443493061d75422bf2aa8e2b863938565cdc4a1b\", \"timestamp\": \"2024-08-17T20:41:00.310565+00:00\", \"parent\": \"SCAN:443493061d75422bf2aa8e2b863938565cdc4a1b\", \"tags\": [\"ns-record\", \"mx-record\", \"txt-record\", \"target\", \"in-scope\", \"domain\", \"soa-record\"], \"module\": \"TARGET\", \"module_sequence\": \"TARGET\", \"discovery_context\": \"Scan example-com seeded with DNS_NAME: example.com\", \"discovery_path\": [[\"DNS_NAME:2c3b88bc0f61aabc979125a84d8402ea4697eb7d\", \"Scan example-com seeded with DNS_NAME: example.com\"]]}"
     },
     "host": {
         "name": "example.com"
@@ -50,17 +80,12 @@
     },
     "log": {
         "file": {
-            "path": "/tmp/service_logs/log.log"
+            "path": "/tmp/service_logs/bbot-logfile-a.log"
         },
-        "offset": 398
-    },
-    "message": "{\"type\": \"DNS_NAME\", \"id\": \"DNS_NAME:f57ba0828becd7bf94faa616db081ed06f31bd3d\", \"data\": {\"DNS_NAME\": \"example.com\"}, \"scope_distance\": 0, \"scan\": \"SCAN:725368977d3a680e579707504e59428a7e3acc9d\", \"timestamp\": 1709170907.779394, \"resolved_hosts\": [\"123.123.123.123\"], \"source\": \"SCAN:725368977d3a680e579707504e59428a7e3acc9d\", \"tags\": [\"resolved\", \"a-record\", \"target\", \"in-scope\", \"subdomain\"], \"module\": \"TARGET\", \"module_sequence\": \"TARGET\"}",
-    "related": {
-        "hosts": [
-            "123.123.123.123"
-        ]
+        "offset": 1287
     },
     "tags": [
+        "preserve_original_event",
         "forwarded",
         "bbot"
     ],
