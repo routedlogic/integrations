@@ -121,4 +121,5 @@ processors:
     processor: 
       lowercase:
         field: "_ingest._key"
+
 # EOF

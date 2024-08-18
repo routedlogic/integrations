@@ -1,7 +1,7 @@
 service: bbot-https
 service_notify_signal: SIGHUP
 input: http_endpoint
-policy_template: BBOT Logs
+policy_template: bbot
 data_stream:
   vars:
     listen_address: 0.0.0.0
@@ -61,4 +61,4 @@ data_stream:
         -----END PRIVATE KEY-----
       verification_mode: none
 assert:
-  hit_count: 104
+  hit_count: 125

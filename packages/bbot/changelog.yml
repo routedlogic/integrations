@@ -1,4 +1,9 @@
 # newer versions go on top
+- version: "0.3.1"
+  changes:
+    - description: Fix bugs, improve http_endpoint configuration options
+      type: bugfix
+      link: https://github.com/elastic/integrations/pull/9999
 - version: "0.3.0"
   changes:
     - description: Update to support BBOT v2.0.0 event format, BBOT v1.x no longer supported

@@ -22,7 +22,7 @@ icons:
     size: 32x32
     type: image/svg+xml
 policy_templates:
-  - name: BBOT Logs
+  - name: bbot
     title: BBOT Scan Data
     description: Collect BBOT output.ndjson
     inputs:
