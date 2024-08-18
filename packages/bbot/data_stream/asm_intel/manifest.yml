@@ -31,12 +31,11 @@ streams:
         show_user: true
         default: false
       - name: preserve_duplicate_custom_fields
-        required: true
-        show_user: true
+        type: bool
         title: Preserve Original Fields
         description: Preserves all original data fields, rather than removing those that are mapped to ECS fields
-        type: bool
-        multi: false
+        required: false
+        show_user: true
         default: false
       - name: processors
         type: yaml
@@ -72,7 +71,7 @@ streams:
         type: text
         title: URL
         description: This options specific which URL path to accept requests on. Defaults to /.
-        required: false
+        required: true
         show_user: true
         default: /bbot/ndjson
       - name: basic_auth
@@ -136,12 +135,11 @@ streams:
         show_user: true
         default: false
       - name: preserve_duplicate_custom_fields
-        required: true
-        show_user: true
+        type: bool
         title: Preserve Original Fields
         description: Preserves all original data fields, rather than removing those that are mapped to ECS fields
-        type: bool
-        multi: false
+        required: false
+        show_user: true
         default: false
       - name: processors
         type: yaml
