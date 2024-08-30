@@ -1,15 +1,15 @@
 # newer versions go on top
 - version: "0.3.1"
   changes:
-    - description: Fix bugs, improve http_endpoint configuration options
-      type: bugfix
+    - description: Enhance dashboard and include new screenshot
+      type: enhancement
       link: https://github.com/elastic/integrations/pull/9999
 - version: "0.3.0"
   changes:
-    - description: Update to support BBOT v2.0.0 event format, BBOT v1.x no longer supported
+    - description: Update to support BBOT v2.0.0 event format
       type: enhancement
       link: https://github.com/elastic/integrations/pull/9999
-    - description: Add http_endpoint input option to support BBOT v2.x HTTP output
+    - description: Add http_endpoint input option to support BBOT HTTP output module
       type: enhancement
       link: https://github.com/elastic/integrations/pull/9999
 - version: "0.2.0"

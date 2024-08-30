@@ -2,30 +2,59 @@
 description: Pipeline for mapping BBOT fields to ECS
 
 processors:
-- rename:
-    field: bbot.data.PROTOCOL.port
-    target_field: url.port
-    ignore_missing: true
 
-- rename:
-    field: bbot.data.VULNERABILITY.severity
-    target_field: vulnerability.severity
-    ignore_missing: true
+# NOTE: ALWAYS use set, do NOT use rename. Duplicated fields are removed in the main pipeline *IF* the tag preserve_duplicate_custom_fields has not been provided.
 
-- rename:
-    field: bbot.data.DNS_NAME
-    target_field: host.name
-    ignore_missing: true
+##############################################################
+# https://www.elastic.co/guide/en/ecs/current/ecs-event.html #
+##############################################################
 
-- rename:
-    field: bbot.resolved_hosts
-    target_field: related.hosts
-    ignore_missing: true
+- append:
+    field: event.category
+    value: network
+    allow_duplicates: false
+    media_type: text/plain
+
+- append:
+    field: event.type
+    value: info
+    allow_duplicates: false
+    media_type: text/plain
+
+#############################################################
+# https://www.elastic.co/guide/en/ecs/current/ecs-host.html #
+#############################################################
+
+- set:
+    if: ctx.bbot?.data?.DNS_NAME != null
+    copy_from: bbot.data.DNS_NAME
+    field: host.name
+    ignore_empty_value: true
 
 - append:
     field: host.ip
     value: '{{{bbot.data.IP_ADDRESS}}}'
     if: ctx.bbot?.data?.IP_ADDRESS != null
+
+################################################################
+# https://www.elastic.co/guide/en/ecs/current/ecs-related.html #
+################################################################
+
+- set:
+    if: ctx.bbot?.resolved_hosts != null
+    copy_from: bbot.resolved_hosts
+    field: related.hosts
+    ignore_empty_value: true
+
+############################################################
+# https://www.elastic.co/guide/en/ecs/current/ecs-url.html #
+############################################################
+
+- set:
+    if: ctx.bbot?.data?.PROTOCOL?.port != null
+    copy_from: bbot.data.PROTOCOL.port
+    field: url.port
+    ignore_empty_value: true
 
 - append:
     field: url.full 
@@ -110,6 +139,20 @@ processors:
     value: '{{{host.name}}}'
     if: ctx.host?.name != null
     allow_duplicates: false
+
+######################################################################
+# https://www.elastic.co/guide/en/ecs/current/ecs-vulnerability.html #
+######################################################################
+
+- set:
+    if: ctx.bbot?.data?.VULNERABILITY?.severity != null
+    copy_from: bbot.data.VULNERABILITY.severity
+    field: vulnerability.severity
+    ignore_empty_value: true
+
+#############
+# Fix Stuff #
+#############
 
 # Uppercase field names will probably work, but it goes against ECS, lowercase 'em
 - foreach:

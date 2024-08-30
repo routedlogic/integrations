@@ -1,0 +1,14 @@
+service: bbot-all-logfile
+input: logfile
+policy_template: bbot
+data_stream:
+  vars:
+    bbot_v1x_compat: true
+    paths:
+      - "{{SERVICE_LOGS_DIR}}/bbot-v*-logfile*.log"
+    preserve_original_event: true
+    tags:
+      - forwarded
+      - bbot
+assert:
+  hit_count: 132

@@ -71,10 +71,27 @@ processors:
     - ISO8601
     ignore_failure: false
 
+####################################################
+# Ensure BBOT v1.x & v2.x SCAN event compatibility #
+####################################################
+- rename:
+    description: "Avoid type conflict between BBOT v1.x (string/keyword) and v2.x (object)"
+    if: ctx.bbot?.data?.SCAN instanceof Map
+    field: bbot.data.SCAN
+    target_field: bbot.data.SCAN_CONFIG
+    ignore_missing: true
+
+- set:
+    description: "Set bbot.data.SCAN based on bbot.data.SCAN_CONFIG to emulate BBOT v1.x field type"
+    if: ctx.bbot?.data?.SCAN == null && ctx.bbot?.data?.SCAN_CONFIG?.name != null && ctx.bbot?.data?.SCAN_CONFIG?.id != null
+    field: bbot.data.SCAN
+    value: "{{{bbot.data.SCAN_CONFIG.name}}} ({{{bbot.data.SCAN_CONFIG.id}}})"
+
 #################
 # Sub-Pipelines #
 #################
 
+# NOTE: The final processor in the ecs pipeline lowercases the keys for all first level objects under bbot.data, e.g. bbot.SCAN becomes bbot.scan
 - pipeline:
     description: All ECS mapping is now done in a separate pipeline for sanity, this could be further split to per event type pipelines if things get more complicated.
     name: '{{ IngestPipeline "ecs" }}'
@@ -131,6 +148,10 @@ processors:
     field:
         - bbot.timestamp
         - bbot.data.ip_address
+        - bbot.data.protocol.port
+        - bbot.data.vulnerability.severity
+        - bbot.data.dns_name
+        - bbot.resolved_hosts
     if: "ctx.tags == null || !(ctx.tags.contains('preserve_duplicate_custom_fields'))"
     ignore_missing: true
 
